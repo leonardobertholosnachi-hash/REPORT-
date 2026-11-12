@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_stack" name="shell-type"/>
+<title>Reportaê - Nova Ocorrência</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#FFF9EB',
+              yellow: '#FFC928',
+              orange: '#F47721',
+              dark: '#171717',
+              white: '#FFFFFF',
+              gray: '#71717A',
+              lightGray: '#F4F4F5',
+              border: '#E4E4E7'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #FFF9EB;
+      }
+      body {
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .pb-safe {
+        padding-bottom: max(env(safe-area-inset-bottom, 16px), 16px);
+      }
+      .pt-safe {
+        padding-top: max(env(safe-area-inset-top, 0px), 0px);
+      }
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-dark font-sans flex flex-col min-h-screen antialiased selection:bg-brand-yellow/30">
+<!-- Compact Mobile Top Header -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#FFF9EB]/95 backdrop-blur-md border-b border-[#F0E6D2]/80 pt-safe">
+<div class="w-full max-w-[393px] mx-auto h-14 px-4 flex items-center justify-between">
+<button aria-label="Voltar" class="w-10 h-10 -ml-1.5 flex items-center justify-center rounded-full text-brand-dark hover:bg-black/5 active:bg-black/10 transition-colors" onclick="history.back()">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="flex items-center justify-center flex-1 px-2">
+<img alt="Reportaê" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLN44i2XvbMDo6_TmOsjy9qyV6bCdb8HdAjHO_sn-G1OAO68uivGEgtXOCqU-OMIzL88FrJ3hEu-MiDB_2wxrTiv0eaq00N2PuPhbAQjXA6N_U-HCmZnMpQHJImROwjcJes4ZqCgNESW5rrMZ3OXM_hVHgKX3CaeZtSkK_O1ipwgs8yrx6nvUGnqyRBdKDuzPLrg1uljcjds778SlgJ-qgrCHCTOyZ39oWaxyYLhwxhp-Ei5jhcx1gW0ByhOtl1hUd6Y"/>
+</div>
+<button aria-label="Fechar" class="w-10 h-10 -mr-1.5 flex items-center justify-center rounded-full text-brand-dark/70 hover:bg-black/5 active:bg-black/10 transition-colors" onclick="history.back()">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+</header>
+<!-- Main Scrollable Form Container -->
+<main class="flex-1 flex flex-col w-full max-w-[393px] mx-auto px-4 pt-16 pb-24">
+<!-- Progress Indicator / Title Badge -->
+<div class="flex items-center justify-between py-2.5 mt-1">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse"></span>
+<h2 class="text-sm font-bold tracking-tight text-brand-dark uppercase">Nova Ocorrência</h2>
+</div>
+<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#F3EAD3] text-brand-dark/80">
+        Etapa 1 de 2
+      </span>
+</div>
+<form class="flex flex-col gap-4 mt-1" id="incident-form" onsubmit="event.preventDefault(); submitReport();">
+<!-- 1. Photo Upload Card -->
+<section class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-brand-dark flex items-center justify-between">
+<span>Foto do problema <span class="text-red-500">*</span></span>
+<span class="text-[11px] font-normal text-brand-gray">Obrigatório</span>
+</label>
+<!-- Main Upload / Preview Container -->
+<div class="bg-white rounded-2xl p-3 border-2 border-dashed border-[#E3D9C3] shadow-sm flex flex-col gap-3">
+<!-- Action Buttons / Prompt -->
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-brand-bg flex items-center justify-center text-brand-dark shrink-0 border border-[#EADBBD]">
+<span class="material-symbols-outlined text-[24px]">photo_camera</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-[13px] font-bold text-brand-dark leading-tight">Adicione uma foto do problema</p>
+<p class="text-[11px] text-brand-gray mt-0.5">Ajuda na identificação rápida pela equipe</p>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="grid grid-cols-2 gap-2">
+<button class="h-9 px-2 rounded-xl bg-brand-bg border border-[#E3D9C3] text-brand-dark text-xs font-semibold flex items-center justify-center gap-1.5 active:bg-[#F0E6D2] transition-colors" onclick="triggerCamera()" type="button">
+<span class="material-symbols-outlined text-[16px] text-brand-orange">camera</span>
+              Tirar foto agora
+            </button>
+<button class="h-9 px-2 rounded-xl bg-brand-bg border border-[#E3D9C3] text-brand-dark text-xs font-semibold flex items-center justify-center gap-1.5 active:bg-[#F0E6D2] transition-colors" onclick="triggerGallery()" type="button">
+<span class="material-symbols-outlined text-[16px] text-brand-dark">add_photo_alternate</span>
+              Escolher da galeria
+            </button>
+<input accept="image/*" class="hidden" id="file-input" type="file"/>
+</div>
+<!-- Thumbnail preview showing an uploaded sample photo -->
+<div class="bg-brand-bg/60 rounded-xl p-2 border border-[#EBE1CB] flex items-center gap-2.5" id="photo-preview-item">
+<div class="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-neutral-200 border border-black/10">
+<img alt="Foto da via" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2TCv_WXPP37x_s8o6fIMqfhBr0nnFPHuVceiCo3DRCPJ6sEJn-VY4DfTM-7J3CojlOIlDpdA8WZAcKceb9tUri6mjinPbbgRffKKa2ce1gN9Jc9RbPGA33yK_irTnE5kbgqT0MdmOM2EWlbKbzU3jPu3Vdizx9iDc7YhEA2CM7sJqBmFk3BufB-MZ9wFrVrsbeUPgsQ83cA3qqB6bpBxdbQ0BlO6mjn9y9nltv1aSvTeeigvhlOBt7g"/>
+<span class="absolute bottom-0 right-0 bg-[#FFC928] text-brand-dark p-0.5 rounded-tl flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] font-bold">check</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold text-brand-dark truncate">foto_asfalto_danificado.jpg</p>
+<p class="text-[11px] text-brand-gray">2.1 MB • Geo-marcada</p>
+</div>
+<div class="flex items-center gap-1 shrink-0">
+<button class="w-8 h-8 rounded-lg bg-white border border-[#E2D8C3] text-brand-dark flex items-center justify-center active:scale-95 transition-transform" onclick="triggerGallery()" title="Substituir" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-white border border-red-200 text-red-500 flex items-center justify-center active:scale-95 transition-transform" onclick="removePhoto()" title="Remover" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Category Selection -->
+<section class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-brand-dark flex items-center justify-between">
+<span>Selecione a categoria <span class="text-red-500">*</span></span>
+<span class="text-[11px] text-brand-gray font-normal">Toque para selecionar</span>
+</label>
+<!-- Compact 2-column & horizontal scroll friendly grid -->
+<div class="grid grid-cols-2 gap-2" id="category-chips">
+<!-- Buraco na via [selected] -->
+<button class="category-btn active col-span-1 h-12 px-3 rounded-xl bg-[#FFC928] border-2 border-brand-dark text-brand-dark flex items-center gap-2.5 font-semibold text-xs shadow-sm transition-all text-left" data-cat="buraco" onclick="selectCategory(this, 'Buraco na via')" type="button">
+<span class="material-symbols-outlined text-[20px] text-brand-dark shrink-0">construction</span>
+<span class="truncate">Buraco na via</span>
+</button>
+<!-- Iluminação -->
+<button class="category-btn col-span-1 h-12 px-3 rounded-xl bg-white border border-[#E4DBC5] text-brand-dark/80 flex items-center gap-2.5 font-medium text-xs shadow-xs hover:bg-neutral-50 active:scale-[0.98] transition-all text-left" data-cat="iluminacao" onclick="selectCategory(this, 'Iluminação pública')" type="button">
+<span class="material-symbols-outlined text-[20px] text-brand-orange shrink-0">lightbulb</span>
+<span class="truncate">Iluminação</span>
+</button>
+<!-- Lixo/Entulho -->
+<button class="category-btn col-span-1 h-12 px-3 rounded-xl bg-white border border-[#E4DBC5] text-brand-dark/80 flex items-center gap-2.5 font-medium text-xs shadow-xs hover:bg-neutral-50 active:scale-[0.98] transition-all text-left" data-cat="lixo" onclick="selectCategory(this, 'Lixo ou Entulho')" type="button">
+<span class="material-symbols-outlined text-[20px] text-brand-dark/70 shrink-0">delete</span>
+<span class="truncate">Lixo / Entulho</span>
+</button>
+<!-- Calçada -->
+<button class="category-btn col-span-1 h-12 px-3 rounded-xl bg-white border border-[#E4DBC5] text-brand-dark/80 flex items-center gap-2.5 font-medium text-xs shadow-xs hover:bg-neutral-50 active:scale-[0.98] transition-all text-left" data-cat="calcada" onclick="selectCategory(this, 'Calçada danificada')" type="button">
+<span class="material-symbols-outlined text-[20px] text-brand-dark/70 shrink-0">accessible_forward</span>
+<span class="truncate">Calçada</span>
+</button>
+<!-- Vazamento (spans 2 cols or compact pill) -->
+<button class="category-btn col-span-2 h-11 px-3 rounded-xl bg-white border border-[#E4DBC5] text-brand-dark/80 flex items-center justify-center gap-2 font-medium text-xs shadow-xs hover:bg-neutral-50 active:scale-[0.98] transition-all text-left" data-cat="vazamento" onclick="selectCategory(this, 'Vazamento de água/esgoto')" type="button">
+<span class="material-symbols-outlined text-[19px] text-blue-500 shrink-0">water_drop</span>
+<span>Vazamento de água ou esgoto</span>
+</button>
+</div>
+</section>
+<!-- 3. Description Field -->
+<section class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="text-[13px] font-bold text-brand-dark" for="description">
+            Descrição do problema <span class="text-red-500">*</span>
+</label>
+<span class="text-[11px] font-medium text-brand-gray" id="char-count">42/300</span>
+</div>
+<div class="relative">
+<textarea class="w-full bg-white rounded-2xl p-3.5 border border-[#E4DBC5] text-brand-dark text-[13px] placeholder:text-brand-gray/60 leading-relaxed shadow-sm focus:border-brand-dark focus:ring-1 focus:ring-brand-dark outline-none resize-none transition-all" id="description" maxlength="300" oninput="updateCharCount(this)" placeholder="Descreva o problema e informe os detalhes importantes..." rows="3">Buraco profundo próximo ao meio-fio causando risco aos motoristas e pedestres.</textarea>
+</div>
+</section>
+<!-- 4. Location Card -->
+<section class="flex flex-col gap-1.5">
+<label class="text-[13px] font-bold text-brand-dark">Localização</label>
+<div class="bg-white rounded-2xl p-3 border border-[#E4DBC5] shadow-sm flex flex-col gap-2.5">
+<!-- Address Info -->
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-brand-yellow/20 flex items-center justify-center shrink-0 text-brand-dark mt-0.5">
+<span class="material-symbols-outlined text-[19px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-extrabold uppercase tracking-wide px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">GPS Ativo</span>
+<span class="text-[11px] text-brand-gray">Raio de ±4m</span>
+</div>
+<p class="text-xs font-bold text-brand-dark mt-1 leading-snug" id="address-text">
+                Rua Augusta, 920 - Consolação, São Paulo - SP
+              </p>
+</div>
+</div>
+<!-- Mini Static Map View -->
+<div class="relative w-full h-20 rounded-xl overflow-hidden border border-[#E9DFCA] bg-[#EFE9D9]">
+<!-- Styled Simulated Map Graphic with Streets and Pin -->
+<svg class="w-full h-full object-cover opacity-80" preserveaspectratio="none" viewbox="0 0 360 80" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#E8E4D9" height="80" width="360"></rect>
+<!-- Roads -->
+<path d="M-20 40 L380 40" stroke="#FFFFFF" stroke-width="14"></path>
+<path d="M-20 40 L380 40" stroke="#FCE9BD" stroke-dasharray="6,4" stroke-width="8"></path>
+<path d="M120 -10 L120 90" stroke="#FFFFFF" stroke-width="12"></path>
+<path d="M250 -10 L250 90" stroke="#FFFFFF" stroke-width="10"></path>
+<path d="M-10 15 Q 180 20 370 10" stroke="#FFFFFF" stroke-width="6"></path>
+<!-- City blocks -->
+<rect fill="#DCD5C5" height="24" rx="3" width="85" x="20" y="8"></rect>
+<rect fill="#DCD5C5" height="24" rx="3" width="100" x="135" y="8"></rect>
+<rect fill="#DCD5C5" height="24" rx="3" width="85" x="20" y="48"></rect>
+<rect fill="#DCD5C5" height="24" rx="3" width="100" x="135" y="48"></rect>
+</svg>
+<!-- Animated Radar / Location Pulse -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-8 h-8 rounded-full bg-brand-orange/20 animate-ping"></span>
+<span class="material-symbols-outlined text-[24px] text-brand-orange drop-shadow" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<!-- Ajustar no Mapa Button Overlay -->
+<div class="absolute bottom-1.5 right-1.5">
+<button class="h-6 px-2.5 rounded-lg bg-white/95 backdrop-blur-sm border border-black/10 text-[11px] font-bold text-brand-dark flex items-center gap-1 shadow-sm active:bg-neutral-100 transition-colors" onclick="adjustMap()" type="button">
+<span class="material-symbols-outlined text-[13px] text-brand-orange">edit_location</span>
+                Ajustar no mapa
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Urgent/Interdição Toggle -->
+<section class="bg-white rounded-2xl p-3 border border-[#E4DBC5] shadow-sm flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center text-brand-orange shrink-0">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div>
+<p class="text-xs font-bold text-brand-dark leading-tight">
+              Problema oferece risco iminente ou interdição de via?
+            </p>
+<p class="text-[11px] text-brand-gray mt-0.5">Sinaliza prioridade para órgãos de trânsito</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" id="urgent-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-orange"></div>
+</label>
+</section>
+<!-- 6. Submit Button & Guarantee Note -->
+<div class="pt-2 flex flex-col gap-2.5">
+<button class="w-full h-12 bg-brand-yellow text-brand-dark font-bold text-[15px] rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(255,201,40,0.5)] active:scale-[0.99] transition-all" id="submit-btn" type="submit">
+<span>Enviar ocorrência</span>
+<span class="material-symbols-outlined text-[19px]">arrow_forward</span>
+</button>
+<p class="text-[11px] text-center text-brand-gray flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-brand-orange">verified</span>
+          Ocorrência encaminhada diretamente à subprefeitura responsável.
+        </p>
+</div>
+</form>
+</main>
+<!-- Success Notification Modal (Triggered on submit) -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200" id="success-modal">
+<div class="w-full max-w-[340px] bg-white rounded-3xl p-5 text-center shadow-2xl flex flex-col items-center animate-in fade-in zoom-in-95">
+<div class="w-16 h-16 rounded-full bg-brand-yellow/30 flex items-center justify-center text-brand-dark mb-3">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="text-lg font-bold text-brand-dark">Ocorrência Registrada!</h3>
+<div class="mt-1 px-3 py-1 bg-brand-bg rounded-lg border border-[#E5DBBE] text-xs font-mono font-bold text-brand-dark">
+        Protocolo: #REP-2024-9142
+      </div>
+<p class="text-xs text-brand-gray mt-2 leading-relaxed">
+        Sua solicitação na Rua Augusta, 920 foi protocolada com sucesso e já está disponível para triagem da CET e Subprefeitura.
+      </p>
+<button class="w-full h-11 bg-brand-dark text-white font-bold text-xs rounded-xl mt-4 active:bg-neutral-800 transition-colors" onclick="closeModal()">
+        Ver no Mapa / Concluir
+      </button>
+</div>
+</div>
+<script>
+    function updateCharCount(el) {
+      const counter = document.getElementById('char-count');
+      counter.textContent = `${el.value.length}/300`;
+    }
+
+    function selectCategory(button, categoryName) {
+      const allButtons = document.querySelectorAll('.category-btn');
+      allButtons.forEach(btn => {
+        btn.classList.remove('bg-[#FFC928]', 'border-2', 'border-brand-dark');
+        btn.classList.add('bg-white', 'border', 'border-[#E4DBC5]');
+      });
+
+      button.classList.remove('bg-white', 'border-[#E4DBC5]');
+      button.classList.add('bg-[#FFC928]', 'border-2', 'border-brand-dark');
+    }
+
+    function triggerCamera() {
+      alert('Abrindo a câmera do dispositivo...');
+    }
+
+    function triggerGallery() {
+      document.getElementById('file-input').click();
+    }
+
+    function removePhoto() {
+      const preview = document.getElementById('photo-preview-item');
+      preview.classList.add('opacity-40');
+      setTimeout(() => {
+        if(confirm('Deseja remover esta imagem anexada?')) {
+          preview.style.display = 'none';
+        } else {
+          preview.classList.remove('opacity-40');
+        }
+      }, 50);
+    }
+
+    function adjustMap() {
+      const address = document.getElementById('address-text');
+      address.innerText = 'Rua Augusta, 924 - Consolação, São Paulo - SP (Ajustado)';
+      alert('Pino ajustado com precisão na calçada!');
+    }
+
+    function submitReport() {
+      const modal = document.getElementById('success-modal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.classList.add('opacity-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('success-modal');
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        if (window.history.length > 1) {
+          window.history.back();
+        }
+      }, 200);
+    }
+  </script>
+</body></html>

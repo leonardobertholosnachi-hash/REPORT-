@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" width="340" height="80" fill="none">
+  <!-- Brand Icon -->
+  <g transform="translate(4, 10)">
+    <!-- Yellow rounded squircle base -->
+    <rect width="60" height="60" rx="16" fill="#FFC928"/>
+    <!-- Subtle urban inner border highlight -->
+    <rect x="1" y="1" width="58" height="58" rx="15" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1.5"/>
+    <!-- Minimalist Camera Pin Fusion in deep black #171717 -->
+    <path d="M30 14C22.268 14 16 20.268 16 28C16 37.6 28.2 47.4 29.35 48.31C29.73 48.61 30.27 48.61 30.65 48.31C31.8 47.4 44 37.6 44 28C44 20.268 37.732 14 30 14Z" fill="#171717"/>
+    <!-- Camera lens / viewfinder aperture aperture inside the pin in #FFC928 -->
+    <circle cx="30" cy="27" r="6.5" fill="#FFC928"/>
+    <!-- Inner camera focal sensor / core point in #171717 -->
+    <circle cx="30" cy="27" r="2.8" fill="#171717"/>
+    <!-- Flash / alert indicator notch top right -->
+    <circle cx="38" cy="20" r="1.5" fill="#FFC928"/>
+  </g>
+
+  <!-- Wordmark / Custom Lettering "Reportaê" -->
+  <g transform="translate(76, 22)">
+    <!-- Main text base using robust modern urban geometry with custom paths -->
+    <text x="0" y="34" font-family="'Inter', system-ui, -apple-system, sans-serif" font-weight="900" font-size="32" letter-spacing="-0.04em" fill="#171717">Reporta</text>
+    <text x="141" y="34" font-family="'Inter', system-ui, -apple-system, sans-serif" font-weight="900" font-size="32" letter-spacing="-0.04em" fill="#171717">e</text>
+    
+    <!-- Signature Graphic Circumflex Accent "ê" as an urban geometric directional marker / map beacon -->
+    <path d="M143.5 10.5L150 4L156.5 10.5L153.5 12L150 8.5L146.5 12L143.5 10.5Z" fill="#F47721"/>
+    <!-- Central alert civic dot inside chevron beacon -->
+    <circle cx="150" cy="11.5" r="1.5" fill="#FFC928"/>
+
+    <!-- Subtle civic underline / stripe badge accent under the brand name -->
+    <rect x="1" y="42" width="22" height="3" rx="1.5" fill="#FFC928"/>
+  </g>
+</svg>

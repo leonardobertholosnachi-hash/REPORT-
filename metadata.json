@@ -1,0 +1,10 @@
+{
+  "name": "Reportaê Agudos",
+  "description": "Plataforma SaaS de cidadania digital e zeladoria urbana exclusiva para o município de Agudos, SP.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

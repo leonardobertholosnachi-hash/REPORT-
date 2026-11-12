@@ -1,0 +1,210 @@
+---
+name: Urban Civic Signal
+colors:
+  surface: '#fbf9f9'
+  surface-dim: '#dbdad9'
+  surface-bright: '#fbf9f9'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f5f3f3'
+  surface-container: '#efeded'
+  surface-container-high: '#e9e8e7'
+  surface-container-highest: '#e3e2e2'
+  on-surface: '#1b1c1c'
+  on-surface-variant: '#4e4633'
+  inverse-surface: '#303031'
+  inverse-on-surface: '#f2f0f0'
+  outline: '#807660'
+  outline-variant: '#d2c5ac'
+  surface-tint: '#765a00'
+  primary: '#765a00'
+  on-primary: '#ffffff'
+  primary-container: '#ffc928'
+  on-primary-container: '#6f5500'
+  inverse-primary: '#f4bf1b'
+  secondary: '#9c4500'
+  on-secondary: '#ffffff'
+  secondary-container: '#ff7f2a'
+  on-secondary-container: '#622800'
+  tertiary: '#5f5e5e'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#d3d0cf'
+  on-tertiary-container: '#5a5959'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#ffdf95'
+  primary-fixed-dim: '#f4bf1b'
+  on-primary-fixed: '#251a00'
+  on-primary-fixed-variant: '#594400'
+  secondary-fixed: '#ffdbca'
+  secondary-fixed-dim: '#ffb68e'
+  on-secondary-fixed: '#331200'
+  on-secondary-fixed-variant: '#773300'
+  tertiary-fixed: '#e5e2e1'
+  tertiary-fixed-dim: '#c8c6c5'
+  on-tertiary-fixed: '#1c1b1b'
+  on-tertiary-fixed-variant: '#474746'
+  background: '#fbf9f9'
+  on-background: '#1b1c1c'
+  surface-variant: '#e3e2e2'
+typography:
+  headline-xl:
+    fontFamily: Inter
+    fontSize: 30px
+    fontWeight: '700'
+    lineHeight: 38px
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Inter
+    fontSize: 26px
+    fontWeight: '700'
+    lineHeight: 34px
+    letterSpacing: -0.015em
+  headline-md:
+    fontFamily: Inter
+    fontSize: 22px
+    fontWeight: '600'
+    lineHeight: 28px
+    letterSpacing: -0.01em
+  title-lg:
+    fontFamily: Inter
+    fontSize: 19px
+    fontWeight: '600'
+    lineHeight: 26px
+  title-md:
+    fontFamily: Inter
+    fontSize: 17px
+    fontWeight: '600'
+    lineHeight: 24px
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 24px
+  body-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 20px
+  label-md:
+    fontFamily: Inter
+    fontSize: 13px
+    fontWeight: '600'
+    lineHeight: 18px
+    letterSpacing: 0.01em
+  label-sm:
+    fontFamily: Inter
+    fontSize: 11px
+    fontWeight: '700'
+    lineHeight: 14px
+    letterSpacing: 0.04em
+  caption:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '500'
+    lineHeight: 16px
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1rem
+  margin: 1rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.25rem
+  space-xl: 1.75rem
+---
+
+## Brand & Style
+
+This design system serves a collaborative urban citizenship and municipal reporting platform. The brand personality balances civic responsibility, immediate utility, and contemporary municipal optimism. It feels vigilant, authoritative yet approachable, functional, and organized.
+
+The aesthetic direction synthesizes **Contemporary Urban Signaling and Architectural Minimalism**. Drawing subtle inspiration from public works, traffic guidance, transit maps, and street barriers, the UI abstracts industrial visual cues into an elegant, high-utility digital experience. Construction and hazard motifs (such as hazard stripes or caution bands) are used sparingly as premium accent details—never as novelty clutter. The interface communicates speed of reporting, visual clarity under bright outdoor conditions, and clear civic feedback loops.
+
+## Colors
+
+The palette grounds itself in high-contrast urban wayfinding tones:
+
+- **Primary (`#FFC928`)**: Civic caution yellow. Used for primary CTAs, active status highlights, and interactive focal points. Paired consistently with deep black text (`#171717`) to ensure accessible contrast.
+- **Secondary (`#F47721`)**: Infrastructure safety orange. Allocated to issue categorization, urgency tags, map pins, and warning badges.
+- **Tertiary / Base Surface (`#171717`)**: Deep asphalt black. Utilized for hero card backgrounds, dense informative banners, primary display typography, and sharp structural accents.
+- **Canvas Base (`#FFF9EB`)**: Warm sunlit pavement tone providing a softer, non-sterile alternative to pure clinical white, reducing glare during outdoor field use.
+- **Card & Input Surface (`#FFFFFF`)**: Pure white reserved for interactive cards, text inputs, bottom sheets, and elevated overlays to generate clear separation from the warm canvas.
+- **Neutrals & Borders**:
+  - Border & Stroke: `#EAE4D5` (warm tint matching the background harmony) and `#E5E5E5` (crisp dividers).
+  - Secondary Text: `#737373`.
+  - Placeholder & Disabled Text: `#A3A3A3`.
+  - Inactive Surface / Track: `#F5F5F0`.
+
+## Typography
+
+The type scale is executed entirely in `Inter` for maximum tabular consistency, neutral balance, and swift legibility on mobile screens in varied lighting.
+
+- **Headlines & Titles**: Emphasize tight letter spacing (`-0.01em` to `-0.02em`) with bold (700) or semibold (600) weights to mimic civic signage declarations.
+- **Labels & Micro-text**: Small badges and category tags leverage uppercase styling with `label-sm` (11px, bold, `0.04em` letter spacing) for rapid visual scanning across dense lists.
+- **Body Text**: Tuned to relaxed line heights (1.45–1.5x) to maintain effortless reading when reviewing incident details, location addresses, or citizen reports.
+
+## Layout & Spacing
+
+The layout is built for vertical ergonomics and quick one-handed mobile interactions:
+
+- **Grid & Margins**: A 4-column fluid mobile grid with `1rem` (16px) margins and gutters. On tablet and desktop companion views, expands to an 8 or 12-column system capped at `640px` for mobile frame emulations or `1024px` for administrative dispatch views.
+- **Rhythm & Stacking**: Vertical module stacking utilizes `space-md` (16px) for intra-card content and `space-lg` (20px) to `space-xl` (28px) between independent incident cards and feed sections.
+- **Safe Tap Zones**: Interactive touch targets strictly honor a minimum boundary of 48×48px.
+
+## Elevation & Depth
+
+Visual separation relies primarily on sharp planar contrast and subtle warm ambient containment rather than heavy drop shadows:
+
+- **Level 0 (Canvas)**: Background `#FFF9EB`.
+- **Level 1 (Card / Surface)**: Pure white `#FFFFFF` or asphalt `#171717` with a structural border: `1px solid #EAE4D5`. Ambient shadow: `0 2px 8px -2px rgba(23, 23, 23, 0.05)`.
+- **Level 2 (Active Modals & Bottom Sheets)**: `#FFFFFF` resting atop dim overlay `rgba(23, 23, 23, 0.45)` with ambient rise: `0 8px 24px -4px rgba(23, 23, 23, 0.12)`.
+- **Level 3 (Floating Action Button & Fixed Bars)**: Yellow `#FFC928` with tactile shadow: `0 6px 16px -2px rgba(244, 119, 33, 0.28)`.
+
+## Shapes
+
+The geometry strikes a modern balance between technical municipal precision and inviting tactile surfaces:
+
+- **Containers & Cards**: Styled with `rounded-xl` (16px to 20px) to soften the density of incident feeds while keeping an architectural posture.
+- **Buttons**: Formed with uniform `12px` radius for standard actions, or full `9999px` (pill) for floating camera/report quick-triggers.
+- **Inputs & Field Enclosures**: Defined with `12px` roundedness to match button geometry cleanly.
+- **Chips & Tags**: Set with `6px` to `8px` soft corners, ensuring they read as distinct technical stamps or inspection seals.
+
+## Components
+
+### Buttons
+- **Primary CTA**: `#FFC928` fill, `#171717` label (semibold), 12px corner radius or pill style, 48px height. Active press shifts subtly with a dark micro-overlay (`rgba(0, 0, 0, 0.06)`).
+- **Secondary / Urgent CTA**: `#F47721` fill with `#FFFFFF` text, applied for urgent hazards or submission verification.
+- **Tertiary / Ghost**: Transparent fill, 1px border `#EAE4D5`, `#171717` label.
+
+### Cards & Hero Banners
+- **Incident Card**: White background (`#FFFFFF`), `16px` border-radius, `1px solid #EAE4D5`, padded with `16px`. Displays status chip on the top right, clear incident photo thumbnail, and icon-labeled street address.
+- **Hero Card (Asphalt Tier)**: Dark `#171717` background with `#FFFFFF` headline and `#FFC928` micro-stats. Used at the top of the dashboard for neighborhood statistics and active resolution metrics.
+
+### Hazard Tape Signature Accent
+- A hairline strip (height: 6px–8px) featuring repeating 45-degree diagonal stripes in `#FFC928` and `#171717`.
+- Used **strictly** as:
+  1. A top-edge accent line on "Interditado" (Condemned/Blocked) or "Obras" status cards.
+  2. A pull-indicator border on specific urgent bottom sheets.
+- Must remain subtle; never cover whole component bodies.
+
+### Form Inputs & Search
+- Background `#FFFFFF`, border `1px solid #EAE4D5`, 12px radius, 48px height.
+- Focused state: Border transitions to `#FFC928` with a 2px outer ring in `rgba(255, 201, 40, 0.35)`.
+- Placeholder text in `#A3A3A3`.
+
+### Chips & Status Badges
+- **Status: Resolvido**: Soft green tint background (`#ECFDF5`), `#065F46` label.
+- **Status: Em Análise**: `#FFF9EB` background, `#171717` label, 1px border `#FFC928`.
+- **Status: Interditado / Alerta**: `#FEF2F2` background, `#B91C1C` label, accompanied by hazard icon.
+- **Category Chips**: Clean `#F5F5F0` background with clean Lucide icons rendered in `#F47721` or `#171717`.
+
+### Iconography
+- Monoline vector icons (Lucide / Heroicon style) using a standard 1.75px to 2px stroke.
+- Applied in `#171717` for base navigation and `#F47721` for active incident pins and infrastructure category markers.

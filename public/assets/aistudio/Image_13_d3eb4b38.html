@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              warm: "#FFF9EB",
+              yellow: "#FFC928",
+              orange: "#F47721",
+              dark: "#171717",
+              white: "#FFFFFF"
+            },
+            primary: "#765a00",
+            "primary-container": "#FFC928",
+            "on-primary-container": "#171717",
+            secondary: "#F47721",
+            "secondary-container": "#F47721",
+            surface: "#FFF9EB",
+            "on-surface": "#171717",
+            "outline-variant": "#d2c5ac"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 12px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hazard-stripe {
+      background: repeating-linear-gradient(
+        -45deg,
+        #FFC928,
+        #FFC928 8px,
+        #171717 8px,
+        #171717 16px
+      );
+    }
+  </style>
+</head>
+<body class="bg-[#FFF9EB] text-[#171717] font-sans flex flex-col w-full h-full select-none">
+<!-- 1. Top Compact Header (h-14, px-4) -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#FFF9EB]/95 backdrop-blur-md pt-safe border-b border-[#171717]/5 shadow-[0_1px_6px_rgba(23,23,23,0.03)]">
+<div class="h-14 px-4 flex items-center justify-between">
+<div class="flex items-center">
+<img alt="Reportaê" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLN44i2XvbMDo6_TmOsjy9qyV6bCdb8HdAjHO_sn-G1OAO68uivGEgtXOCqU-OMIzL88FrJ3hEu-MiDB_2wxrTiv0eaq00N2PuPhbAQjXA6N_U-HCmZnMpQHJImROwjcJes4ZqCgNESW5rrMZ3OXM_hVHgKX3CaeZtSkK_O1ipwgs8yrx6nvUGnqyRBdKDuzPLrg1uljcjds778SlgJ-qgrCHCTOyZ39oWaxyYLhwxhp-Ei5jhcx1gW0ByhOtl1hUd6Y"/>
+</div>
+<div class="flex items-center gap-2.5">
+<button aria-label="Notificações" class="relative flex items-center justify-center w-8 h-8 rounded-full text-[#171717] hover:bg-black/5 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#F47721] ring-2 ring-[#FFF9EB]"></span>
+</button>
+<div class="flex items-center">
+<img alt="Perfil" class="w-8 h-8 rounded-full object-cover ring-2 ring-[#FFC928]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgi60Q2f-lVSle47Xzsfu_kjJl9eYAaEmzCCdhbCNeSAxjIej-CJciumZ58hWvPrY8WDHNqZQ8NOjsRx0Vu09QcaiEXJ_Wg_p_GtTDSiJTJmYrEIPRyhIz75C4cWuIvTEePblDj3KNeDmq7wy0RcI7i2dzMlylq4g8QI3MK_LPit8bM49jxNLBojQvkapGMibNJ1N02nm2mMbMADyoVCv2981t7CAIYbp7UmT3k6dXkmI9eTZJBL9RTA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Map & Floating UI Container -->
+<main class="relative w-full h-full flex-1 overflow-hidden pt-14 pb-16">
+<!-- Map Background Canvas -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBr9dyU21nphLc0xfmvU3tUMhMJK1Df0VLZCPt-yF4Tn3DNdEPDJebfLWetBrJtqjFL6VizoGleRlBsj_rVbFfahSceYbAGX4x2UUv6sLWDW40d1EW3ovSUTI4s2OCFe0oWLV6tI1P6bpxV4cTFtjs6et5v2fKAb3Mvmwyf7MH_6z91FjV41vzNPuZWHUlz36Jc0mgAWtlU1ShuFS0YFFdK0Ys6BemTikxehGw_tDLZEp3WaFmnPVVqeQ');"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-[#FFF9EB]/70 via-transparent to-[#FFF9EB]/80 pointer-events-none"></div>
+<!-- 2 & 3. Top Floating Search Bar + Hazard Tape + Filter Chips -->
+<div class="absolute top-2.5 inset-x-0 z-30 flex flex-col px-3.5 gap-2.5">
+<!-- Search Input & Filter Button -->
+<div class="flex items-center gap-2 w-full">
+<div class="relative flex-1 flex flex-col bg-white rounded-xl shadow-md overflow-hidden border border-[#171717]/5">
+<div class="flex items-center h-11 px-3 gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#737373]">search</span>
+<input class="w-full bg-transparent text-[13px] text-[#171717] placeholder:text-[#8E8E93] focus:outline-none" placeholder="Buscar endereço, bairro ou protocolo..." type="text"/>
+<button aria-label="Limpar busca" class="flex items-center justify-center w-5 h-5 rounded-full text-[#8E8E93] hover:text-[#171717]">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Hazard Caution Tape Accent -->
+<div class="w-full h-1 hazard-stripe"></div>
+</div>
+<button aria-label="Filtros" class="flex items-center justify-center w-11 h-11 rounded-xl bg-white text-[#171717] shadow-md border border-[#171717]/5 active:scale-95 transition-transform shrink-0">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+<!-- Horizontal Filter Chips Row -->
+<div class="flex items-center gap-1.5 overflow-x-auto py-0.5 no-scrollbar">
+<button class="status-chip active flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#171717] text-white shadow-sm text-[11px] font-semibold whitespace-nowrap active:scale-95 shrink-0 transition-all">
+<span class="w-2 h-2 rounded-full bg-[#FFC928]"></span>
+<span>Todos (28)</span>
+</button>
+<button class="status-chip flex items-center gap-1.5 px-3 h-8 rounded-full bg-white text-[#171717] shadow-sm text-[11px] font-semibold whitespace-nowrap active:scale-95 shrink-0 hover:bg-[#FFF9EB] transition-all border border-[#171717]/5">
+<span class="w-2 h-2 rounded-full bg-[#FFC928]"></span>
+<span>Abertos (12)</span>
+</button>
+<button class="status-chip flex items-center gap-1.5 px-3 h-8 rounded-full bg-white text-[#171717] shadow-sm text-[11px] font-semibold whitespace-nowrap active:scale-95 shrink-0 hover:bg-[#FFF9EB] transition-all border border-[#171717]/5">
+<span class="w-2 h-2 rounded-full bg-[#F47721]"></span>
+<span>Em andamento (9)</span>
+</button>
+<button class="status-chip flex items-center gap-1.5 px-3 h-8 rounded-full bg-white text-[#737373] shadow-sm text-[11px] font-semibold whitespace-nowrap active:scale-95 shrink-0 hover:bg-[#FFF9EB] transition-all border border-[#171717]/5">
+<span class="w-2 h-2 rounded-full bg-[#5f5e5e]"></span>
+<span>Resolvidos (7)</span>
+</button>
+</div>
+</div>
+<!-- 4. Map Custom Pins -->
+<div class="absolute inset-0 w-full h-full pointer-events-none">
+<!-- Pin 1: Active Selected Pin (Buraco na via / Obras - Rua Augusta) with Pulse Effect -->
+<div class="absolute top-[45%] left-[50%] -translate-x-1/2 -translate-y-full pointer-events-auto cursor-pointer group" id="pin-selected">
+<!-- Pulse Effect -->
+<span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#F47721]/30 animate-ping"></span>
+<span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#FFC928]/40 blur-xs"></span>
+<!-- Floating tag -->
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-full bg-[#171717] text-white font-bold text-[10px] shadow-md flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F47721]"></span>
+          #0429 • Ativo
+        </div>
+<!-- Pin Marker Body -->
+<div class="relative flex items-center justify-center w-11 h-11 bg-[#171717] rounded-full shadow-xl ring-2 ring-[#FFC928] group-hover:-translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-[20px] text-[#FFC928]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="w-2.5 h-2.5 bg-[#171717] rotate-45 mx-auto -mt-1 rounded-[1px]"></div>
+</div>
+<!-- Pin 2: Iluminação pública (Yellow pin) -->
+<div class="absolute top-[28%] left-[24%] -translate-x-1/2 -translate-y-full pointer-events-auto cursor-pointer transition-transform hover:scale-110 active:scale-95" onclick="selectOccurrence('luz')">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-[#FFC928] shadow-lg border border-[#171717]/20">
+<span class="material-symbols-outlined text-[17px] text-[#171717]" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+</div>
+<div class="w-2 h-2 bg-[#FFC928] rotate-45 mx-auto -mt-1"></div>
+</div>
+<!-- Pin 3: Entulho / Debris (Orange pin) -->
+<div class="absolute top-[31%] right-[22%] -translate-x-1/2 -translate-y-full pointer-events-auto cursor-pointer transition-transform hover:scale-110 active:scale-95" onclick="selectOccurrence('entulho')">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-[#F47721] shadow-lg border border-white">
+<span class="material-symbols-outlined text-[17px] text-white" style="font-variation-settings: 'FILL' 1;">delete_sweep</span>
+</div>
+<div class="w-2 h-2 bg-[#F47721] rotate-45 mx-auto -mt-1"></div>
+</div>
+<!-- Pin 4: Saneamento / Esgoto -->
+<div class="absolute top-[57%] right-[32%] -translate-x-1/2 -translate-y-full pointer-events-auto cursor-pointer transition-transform hover:scale-110 active:scale-95" onclick="selectOccurrence('saneamento')">
+<div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#171717] shadow-md text-[#FFC928]">
+<span class="material-symbols-outlined text-[15px]">water_drop</span>
+</div>
+</div>
+<!-- Pin 5: Semáforo danificado -->
+<div class="absolute top-[20%] left-[53%] -translate-x-1/2 -translate-y-full pointer-events-auto cursor-pointer transition-transform hover:scale-110 active:scale-95" onclick="selectOccurrence('semaforo')">
+<div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#FFC928] shadow-md text-[#171717]">
+<span class="material-symbols-outlined text-[15px]">traffic</span>
+</div>
+</div>
+</div>
+<!-- 5. Floating GPS Recenter FAB Button -->
+<div class="absolute bottom-48 right-4 z-30 pointer-events-auto">
+<button aria-label="Centralizar minha localização" class="flex items-center justify-center w-11 h-11 rounded-full bg-white text-[#F47721] shadow-lg border border-[#171717]/10 active:scale-90 transition-transform" onclick="recenterMap()">
+<span class="material-symbols-outlined text-[22px]">my_location</span>
+</button>
+</div>
+<!-- 6. Bottom Floating Incident Card (compact, rounded-2xl bg-white shadow-lg p-4 mx-4 mb-20) -->
+<div class="absolute bottom-20 inset-x-0 z-30 px-4 pointer-events-auto">
+<div class="w-full bg-white rounded-2xl p-4 shadow-xl border border-[#171717]/5 transition-all duration-300" id="incident-card">
+<!-- Protocol & Status Badge -->
+<div class="flex items-center justify-between pb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#F47721] animate-pulse"></span>
+<span class="text-[11px] font-bold text-[#F47721] uppercase tracking-wider">Protocolo #REP-2024-884</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#F47721]/10 text-[#F47721] font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F47721]"></span>
+            Em andamento
+          </span>
+</div>
+<!-- Thumbnail + Details -->
+<div class="flex items-center gap-3">
+<div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-[#FFF9EB] border border-[#171717]/10">
+<img alt="Buraco na via com cones" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT1MLjmbwoupWgTp5iZsYm6-XN2NEVO77M01K1ZFkRre9AiQcH_wSMj_D1t2xnx0hxr2mKU17Wyl7GbIoTUqbb0hUIxWY2uxC5o5kodbbiy84HLoGTigvMvvb_xhr_oRo1DF3GAtfxOAF4mqjcuSOWpxVrNy_FHnPXmauB7lkLiMhX8NPEwkic8w6H413qQo5nA7y85aWAAswC7FZn2TwkNYnphDAP3-tk5FvUXo_jexsKRyS24Yv5DQ"/>
+<span class="absolute bottom-0.5 right-0.5 flex items-center justify-center w-4 h-4 rounded bg-[#171717]/80 text-[#FFC928]">
+<span class="material-symbols-outlined text-[10px]">photo_camera</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1 text-[11px] text-[#737373] font-medium">
+<span class="material-symbols-outlined text-[13px] text-[#F47721]">construction</span>
+<span class="truncate">Pavimentação • Buraco na via</span>
+</div>
+<h3 class="text-[14px] font-bold text-[#171717] truncate mt-0.5">Rua Augusta, 920 - Consolação</h3>
+<p class="text-[11px] text-[#8E8E93] truncate flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">pin_drop</span>
+              São Paulo - SP
+            </p>
+</div>
+</div>
+<!-- Actions: Upvote & Yellow Details Button -->
+<div class="flex items-center gap-2 mt-3 pt-2 border-t border-[#171717]/5">
+<button aria-label="Apoiar este relato" class="flex items-center justify-center gap-1 px-3 h-10 rounded-xl bg-[#FFF9EB] text-[#171717] hover:bg-[#FFC928]/20 transition-colors active:scale-95 shrink-0" id="upvote-btn" onclick="toggleUpvote()">
+<span class="material-symbols-outlined text-[17px] text-[#F47721]" id="upvote-icon">thumb_up</span>
+<span class="text-[12px] font-semibold whitespace-nowrap" id="upvote-count">42 apoios</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-1.5 h-10 px-3 rounded-xl bg-[#FFC928] text-[#171717] text-[12px] font-bold shadow-sm active:scale-98 transition-transform hover:brightness-105">
+<span>Ver detalhes completos</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- 7. Fixed Mobile Bottom Tab Navigation (h-16, safe area pb-3) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 h-16 pb-safe bg-[#FFF9EB]/95 backdrop-blur-xl border-t border-[#171717]/5 shadow-[0_-2px_10px_rgba(23,23,23,0.03)]">
+<div class="flex justify-around items-center h-full px-2">
+<!-- Início -->
+<a class="flex flex-col items-center justify-center w-16 h-12 text-[#737373] hover:text-[#171717] transition-colors relative" data-path="inicio" href="#">
+<span class="material-symbols-outlined text-[22px]">home</span>
+<span class="text-[10px] font-medium mt-0.5">Início</span>
+</a>
+<!-- Mapa (Active) -->
+<a aria-current="page" class="flex flex-col items-center justify-center w-16 h-12 text-[#171717] font-bold relative" data-path="mapa" href="#">
+<span class="material-symbols-outlined text-[22px]">map</span>
+<span class="text-[10px] mt-0.5">Mapa</span>
+<!-- Yellow Active Indicator Dot -->
+<span class="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-[#FFC928]"></span>
+</a>
+<!-- Solicitações -->
+<a class="flex flex-col items-center justify-center w-16 h-12 text-[#737373] hover:text-[#171717] transition-colors relative" data-path="solicitacoes" href="#">
+<span class="material-symbols-outlined text-[22px]">assignment</span>
+<span class="text-[10px] font-medium mt-0.5">Solicitações</span>
+</a>
+<!-- Perfil -->
+<a class="flex flex-col items-center justify-center w-16 h-12 text-[#737373] hover:text-[#171717] transition-colors relative" data-path="perfil" href="#">
+<span class="material-symbols-outlined text-[22px]">person</span>
+<span class="text-[10px] font-medium mt-0.5">Perfil</span>
+</a>
+</div>
+</nav>
+<script>
+    let supported = false;
+    let count = 42;
+
+    function toggleUpvote() {
+      supported = !supported;
+      const countEl = document.getElementById('upvote-count');
+      const iconEl = document.getElementById('upvote-icon');
+      const btn = document.getElementById('upvote-btn');
+
+      if (supported) {
+        count++;
+        countEl.innerText = count + ' apoios';
+        iconEl.style.fontVariationSettings = "'FILL' 1";
+        btn.classList.add('bg-[#FFC928]/30', 'text-[#F47721]');
+      } else {
+        count--;
+        countEl.innerText = count + ' apoios';
+        iconEl.style.fontVariationSettings = "'FILL' 0";
+        btn.classList.remove('bg-[#FFC928]/30', 'text-[#F47721]');
+      }
+    }
+
+    function recenterMap() {
+      const pin = document.getElementById('pin-selected');
+      if (pin) {
+        pin.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        pin.classList.add('scale-125');
+        setTimeout(() => pin.classList.remove('scale-125'), 350);
+      }
+    }
+
+    function selectOccurrence(type) {
+      const card = document.getElementById('incident-card');
+      if (card) {
+        card.classList.add('scale-98', 'opacity-75');
+        setTimeout(() => {
+          card.classList.remove('scale-98', 'opacity-75');
+        }, 180);
+      }
+    }
+
+    document.querySelectorAll('.status-chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('.status-chip').forEach(c => {
+          c.classList.remove('bg-[#171717]', 'text-white');
+          c.classList.add('bg-white', 'text-[#171717]');
+        });
+        this.classList.add('bg-[#171717]', 'text-white');
+        this.classList.remove('bg-white', 'text-[#171717]');
+      });
+    });
+  </script>
+</body></html>
