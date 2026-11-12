@@ -21,7 +21,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const categories = [
     { id: 'buraco', title: 'Buraco na rua', desc: 'Asfalto e pista', icon: 'minor_crash' },
     { id: 'lixo', title: 'Lixo acumulado', desc: 'Descarte e entulho', icon: 'delete_sweep' },
-    { id: 'iluminacao', title: 'Luz apagada', desc: 'Poste ou praça pública', icon: 'lightbulb' },
+    { id: 'sinalizacao', title: 'Sinalização', desc: 'Placas, faixas e semáforos', icon: 'traffic' },
+    { id: 'bueiros', title: 'Bueiros', desc: 'Entupimento, tampa e água', icon: 'water_damage' },
     { id: 'calcada', title: 'Calçada danificada', desc: 'Piso e acessibilidade', icon: 'accessible' },
   ];
 

@@ -10,6 +10,8 @@ interface ProfileScreenProps {
   onGoogleSignIn: () => void;
   onEmailSignIn: (email: string) => Promise<void>;
   onLogout: () => void;
+  onRedeemInviteCode: (code: string) => Promise<{ success: boolean; message: string }>;
+  onOpenOwnerPanel: () => void;
 }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
@@ -20,6 +22,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onGoogleSignIn,
   onEmailSignIn,
   onLogout,
+  onRedeemInviteCode,
+  onOpenOwnerPanel,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
@@ -28,6 +32,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [soundEnabled, setSoundEnabled] = useState(soundFx.isEnabled());
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  // Invite code redemption modal state
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [inviteCodeInput, setInviteCodeInput] = useState('');
+  const [isRedeeming, setIsRedeeming] = useState(false);
+  const [inviteFeedback, setInviteFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [showRoleRequestModal, setShowRoleRequestModal] = useState(false);
 
   // Email login state for visitor mode
   const [emailInput, setEmailInput] = useState('');
@@ -268,7 +279,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </div>
           )}
           <span className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-[#171717] text-[#FFC928] flex items-center justify-center text-xs font-bold border-2 border-white shadow-xs">
-            {user.role === 'admin' ? '★' : user.role === 'agente' ? '✓' : '●'}
+            {user.role === 'moderador' || user.role === 'proprietario' ? '★' : user.role === 'agente' ? '✓' : '●'}
           </span>
         </div>
 
@@ -276,56 +287,73 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <p className="text-xs text-[#737373] mt-0.5 font-medium">{user.email}</p>
 
         <div className="flex items-center gap-2 mt-2">
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#FFF9EB] text-[#F47721] border border-[#FFC928]/40">
-            {user.role === 'admin'
-              ? 'Administrador Municipal'
-              : user.role === 'agente'
-              ? 'Agente Público de Agudos'
-              : 'Cidadão de Agudos'}
-          </span>
+          {user.role === 'proprietario' && (
+            <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#171717] text-[#FFC928] border border-[#FFC928] flex items-center gap-1 shadow-xs">
+              <span className="material-symbols-outlined text-[12px]">workspace_premium</span>
+              PROPRIETÁRIO DO SISTEMA
+            </span>
+          )}
+          {user.role === 'moderador' && (
+            <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#FFF4E5] text-[#F47721] border border-[#F47721]/40">
+              MODERADOR
+            </span>
+          )}
+          {user.role === 'agente' && (
+            <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-blue-50 text-blue-700 border border-blue-200">
+              AGENTE PÚBLICO
+            </span>
+          )}
+          {user.role === 'cidadao' && (
+            <span className="px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-neutral-100 text-neutral-700 border border-neutral-200">
+              CIDADÃO
+            </span>
+          )}
           <span className="text-[11px] text-[#737373]">
             {user.neighborhood || 'Agudos, SP'}
           </span>
         </div>
 
-        {/* Persona Switcher */}
-        <div className="w-full mt-4 pt-4 border-t border-[#171717]/5 flex flex-col gap-1.5">
-          <span className="text-[11px] font-bold text-[#171717] uppercase tracking-wider text-left">
-            Perfil de Acesso no Município:
-          </span>
-          <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#FFF9EB] rounded-xl border border-[#171717]/5">
+        {/* Exclusive Owner System Management Button */}
+        {user.role === 'proprietario' && (
+          <button
+            onClick={() => {
+              soundFx.playTap();
+              onOpenOwnerPanel();
+            }}
+            className="mt-4 w-full h-11 bg-[#171717] text-[#FFC928] font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer border border-[#FFC928]/40"
+          >
+            <span className="material-symbols-outlined text-[18px]">shield_person</span>
+            <span>Gerenciamento do Sistema</span>
+          </button>
+        )}
+
+        {/* Request / Enter Authorization Code Option */}
+        {user.role !== 'proprietario' && (
+          <div className="mt-4 w-full flex flex-col gap-2">
             <button
-              onClick={() => handleRoleChange('cidadao')}
-              className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                user.role === 'cidadao'
-                  ? 'bg-[#171717] text-white shadow-xs'
-                  : 'text-[#737373] hover:text-[#171717]'
-              }`}
+              onClick={() => {
+                soundFx.playTap();
+                setInviteFeedback(null);
+                setInviteCodeInput('');
+                setShowInviteModal(true);
+              }}
+              className="w-full h-10 bg-[#FFF9EB] hover:bg-[#FFC928]/20 text-[#171717] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 border border-[#FFC928]/50 transition-colors cursor-pointer"
             >
-              Cidadão
+              <span className="material-symbols-outlined text-[17px] text-[#F47721]">key</span>
+              <span>Inserir código de autorização</span>
             </button>
             <button
-              onClick={() => handleRoleChange('agente')}
-              className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                user.role === 'agente'
-                  ? 'bg-[#F47721] text-white shadow-xs'
-                  : 'text-[#737373] hover:text-[#171717]'
-              }`}
+              onClick={() => {
+                soundFx.playTap();
+                setShowRoleRequestModal(true);
+              }}
+              className="w-full h-10 bg-white hover:bg-[#FFF9EB] text-[#171717] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 border border-[#171717]/15 transition-colors cursor-pointer"
             >
-              Agente
-            </button>
-            <button
-              onClick={() => handleRoleChange('admin')}
-              className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                user.role === 'admin'
-                  ? 'bg-[#FFC928] text-[#171717] shadow-xs'
-                  : 'text-[#737373] hover:text-[#171717]'
-              }`}
-            >
-              Admin
+              <span className="material-symbols-outlined text-[17px] text-[#171717]">assignment_ind</span>
+              <span>Solicitar mudança de cargo</span>
             </button>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Edit Profile Form */}
@@ -523,6 +551,175 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </div>
         </div>
       )}
+      {/* Invite Code Redemption Modal */}
+      {showInviteModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-5 max-w-[360px] w-full shadow-2xl border border-[#171717]/10">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#F47721] text-[22px]">key</span>
+                <h3 className="text-base font-bold text-[#171717]">Código de Autorização</h3>
+              </div>
+              <button
+                onClick={() => setShowInviteModal(false)}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[#737373] hover:bg-black/5 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+
+            <p className="text-xs text-[#737373] leading-relaxed">
+              Insira o código exclusivo fornecido pelo Proprietário do Sistema para ativar permissões de Agente Público ou Administrador.
+            </p>
+
+            {inviteFeedback && (
+              <div
+                className={`mt-3 p-3 rounded-xl text-xs font-semibold ${
+                  inviteFeedback.type === 'success'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}
+              >
+                {inviteFeedback.text}
+              </div>
+            )}
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!inviteCodeInput.trim()) return;
+                setIsRedeeming(true);
+                setInviteFeedback(null);
+                const result = await onRedeemInviteCode(inviteCodeInput.trim());
+                setIsRedeeming(false);
+                if (result.success) {
+                  soundFx.playSuccess();
+                  setInviteFeedback({ type: 'success', text: result.message });
+                  setTimeout(() => setShowInviteModal(false), 1800);
+                } else {
+                  soundFx.playTap();
+                  setInviteFeedback({ type: 'error', text: result.message });
+                }
+              }}
+              className="mt-4 flex flex-col gap-3"
+            >
+              <input
+                type="text"
+                value={inviteCodeInput}
+                onChange={(e) => setInviteCodeInput(e.target.value.toUpperCase())}
+                placeholder="Ex: REP-A1B2-C3D4-E5F6"
+                className="w-full bg-[#FFF9EB] border border-[#171717]/15 rounded-xl px-3.5 py-2.5 text-sm font-mono font-bold text-[#171717] uppercase tracking-wider focus:outline-none focus:border-[#171717]"
+                required
+              />
+
+              <button
+                type="submit"
+                disabled={isRedeeming}
+                className="w-full h-11 bg-[#FFC928] text-[#171717] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-xs hover:brightness-105 cursor-pointer disabled:opacity-50"
+              >
+                <span>{isRedeeming ? 'Validando código...' : 'Confirmar autorização'}</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <RoleRequestModal
+        isOpen={showRoleRequestModal}
+        onClose={() => setShowRoleRequestModal(false)}
+      />
     </main>
+  );
+};
+
+const RoleRequestModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+  const [requestedRole, setRequestedRole] = useState<'agente' | 'moderador'>('agente');
+  const [reason, setReason] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setFeedback(null);
+    try {
+      const res = await fetch('/api/role-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestedRole, reason }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        soundFx.playSuccess();
+        setFeedback({ type: 'success', text: 'Solicitação enviada! O Proprietário irá analisá-la.' });
+        setReason('');
+        setTimeout(() => {
+          setFeedback(null);
+          onClose();
+        }, 1600);
+      } else {
+        setFeedback({ type: 'error', text: json.error || 'Erro ao enviar solicitação.' });
+      }
+    } catch {
+      setFeedback({ type: 'error', text: 'Erro de conexão.' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl p-5 max-w-[360px] w-full shadow-2xl">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-base font-bold text-[#171717]">Solicitar mudança de cargo</h3>
+          <button onClick={onClose} className="text-[#737373] hover:text-[#171717] cursor-pointer">
+            <span className="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <div>
+            <label className="text-xs font-bold text-[#171717] block mb-1">Cargo desejado</label>
+            <select
+              value={requestedRole}
+              onChange={(e) => setRequestedRole(e.target.value as 'agente' | 'moderador')}
+              className="w-full bg-[#FFF9EB] border border-[#171717]/15 rounded-xl px-3 h-10 text-xs font-semibold text-[#171717]"
+            >
+              <option value="agente">Agente Público</option>
+              <option value="moderador">Moderador</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-xs font-bold text-[#171717] block mb-1">Motivo da solicitação</label>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Explique por que você precisa deste cargo..."
+              rows={3}
+              required
+              minLength={5}
+              className="w-full bg-[#FFF9EB] border border-[#171717]/15 rounded-xl p-3 text-xs text-[#171717] focus:outline-none focus:border-[#FFC928]"
+            />
+          </div>
+
+          {feedback && (
+            <p className={`text-xs font-semibold ${feedback.type === 'success' ? 'text-emerald-700' : 'text-red-600'}`}>
+              {feedback.text}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full h-11 bg-[#171717] text-[#FFC928] font-bold text-xs rounded-xl hover:bg-black transition-colors disabled:opacity-60 cursor-pointer"
+          >
+            {submitting ? 'Enviando...' : 'Enviar solicitação'}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };

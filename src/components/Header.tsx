@@ -8,6 +8,7 @@ interface HeaderProps {
   unreadCount?: number;
   subtitle?: string;
   onProfileClick: () => void;
+  onOpenOwnerPanel?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   unreadCount = 0,
   subtitle = 'Agudos, SP',
   onProfileClick,
+  onOpenOwnerPanel,
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-[#FFF9EB]/95 backdrop-blur-md pt-safe border-b border-[#171717]/5 transition-all w-full">
@@ -61,6 +63,20 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
 
+          {user?.role === 'proprietario' && onOpenOwnerPanel && (
+            <button
+              onClick={() => {
+                soundFx.playTap();
+                onOpenOwnerPanel();
+              }}
+              className="h-8 px-2.5 rounded-xl bg-[#171717] text-[#FFC928] text-[11px] font-bold flex items-center gap-1 shadow-xs hover:bg-black active:scale-95 transition-all cursor-pointer"
+              title="Painel do Proprietário"
+            >
+              <span className="material-symbols-outlined text-[15px]">shield_person</span>
+              <span>Painel</span>
+            </button>
+          )}
+
           <button
             aria-label={user ? `Perfil de ${user.name}` : 'Entrar na conta'}
             onClick={() => {
@@ -84,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             )}
 
-            {user?.role === 'admin' && (
+            {(user?.role === 'moderador' || user?.role === 'proprietario') && (
               <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#171717] text-[#FFC928] rounded-full flex items-center justify-center text-[8px] font-bold">
                 ★
               </span>

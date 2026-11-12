@@ -8,6 +8,8 @@ interface NewReportModalProps {
     title: string;
     description: string;
     category: string;
+    subcategory?: string;
+    subcategoryLabel?: string;
     photoUrl: string;
     address: string;
     neighborhood: string;
@@ -47,6 +49,8 @@ export const NewReportModal: React.FC<NewReportModalProps> = ({
   initialCoords,
 }) => {
   const [category, setCategory] = useState(initialCategory);
+  const [subcategory, setSubcategory] = useState('');
+  const [subcategoryLabel, setSubcategoryLabel] = useState('');
   const [description, setDescription] = useState('');
   const [photoUrl, setPhotoUrl] = useState<string>('');
   const [photoName, setPhotoName] = useState('');
@@ -170,6 +174,8 @@ export const NewReportModal: React.FC<NewReportModalProps> = ({
         title: description.slice(0, 48) + (description.length > 48 ? '...' : ''),
         description,
         category,
+        subcategory: subcategory || undefined,
+        subcategoryLabel: subcategoryLabel || undefined,
         photoUrl,
         address,
         neighborhood,
@@ -401,18 +407,40 @@ export const NewReportModal: React.FC<NewReportModalProps> = ({
                 type="button"
                 onClick={() => {
                   soundFx.playTap();
-                  setCategory('iluminacao');
+                  setCategory('sinalizacao');
+                  setSubcategory('');
+                  setSubcategoryLabel('');
                 }}
                 className={`col-span-1 h-12 px-3 rounded-xl flex items-center gap-2.5 font-semibold text-xs shadow-xs transition-all text-left cursor-pointer ${
-                  category === 'iluminacao'
+                  category === 'sinalizacao'
                     ? 'bg-[#FFC928] border-2 border-[#171717] text-[#171717]'
                     : 'bg-white border border-[#E4DBC5] text-[#171717]/80 hover:bg-neutral-50'
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px] text-[#F47721] shrink-0">
-                  lightbulb
+                  traffic
                 </span>
-                <span className="truncate">Iluminação</span>
+                <span className="truncate">Sinalização</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  soundFx.playTap();
+                  setCategory('bueiros');
+                  setSubcategory('');
+                  setSubcategoryLabel('');
+                }}
+                className={`col-span-1 h-12 px-3 rounded-xl flex items-center gap-2.5 font-semibold text-xs shadow-xs transition-all text-left cursor-pointer ${
+                  category === 'bueiros'
+                    ? 'bg-[#FFC928] border-2 border-[#171717] text-[#171717]'
+                    : 'bg-white border border-[#E4DBC5] text-[#171717]/80 hover:bg-neutral-50'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[20px] text-blue-600 shrink-0">
+                  water_damage
+                </span>
+                <span className="truncate">Bueiros</span>
               </button>
 
               <button
@@ -469,6 +497,84 @@ export const NewReportModal: React.FC<NewReportModalProps> = ({
                 <span>Vazamento de água ou esgoto</span>
               </button>
             </div>
+
+            {category === 'sinalizacao' && (
+              <div className="mt-2 bg-white rounded-2xl p-3.5 border border-[#E4DBC5] flex flex-col gap-2">
+                <p className="text-xs font-bold text-[#171717]">
+                  Qual problema de sinalização você deseja denunciar?
+                </p>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {[
+                    { id: 'placas', label: 'Placas', desc: 'Placas de trânsito ausentes, danificadas, apagadas ou ilegíveis.', icon: 'signpost' },
+                    { id: 'faixas_pedestre', label: 'Faixas de pedestre', desc: 'Faixas apagadas, desgastadas ou inexistentes.', icon: 'directions_walk' },
+                    { id: 'semaforos', label: 'Semáforos', desc: 'Semáforos apagados, quebrados ou com funcionamento incorreto.', icon: 'traffic' },
+                    { id: 'sinalizacao_solo', label: 'Sinalização de solo', desc: 'Linhas, setas e outras marcações de trânsito apagadas ou danificadas.', icon: 'edit_road' },
+                    { id: 'sinalizacao_advertencia', label: 'Sinalização de advertência', desc: 'Ausência ou danos em placas e avisos de perigo.', icon: 'warning' },
+                    { id: 'outros_sinalizacao', label: 'Outros', desc: 'Problemas de sinalização que não se encaixem nas opções anteriores.', icon: 'more_horiz' },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => {
+                        soundFx.playTap();
+                        setSubcategory(opt.id);
+                        setSubcategoryLabel(opt.label);
+                      }}
+                      className={`p-2.5 rounded-xl flex items-start gap-2.5 text-left transition-all cursor-pointer border ${
+                        subcategory === opt.id
+                          ? 'bg-[#FFC928]/25 border-[#171717]'
+                          : 'bg-[#FFF9EB] border-[#E4DBC5]/70 hover:bg-[#FFC928]/10'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[18px] text-[#F47721] mt-0.5 shrink-0">{opt.icon}</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-[#171717]">{opt.label}</p>
+                        <p className="text-[11px] text-[#737373] leading-snug">{opt.desc}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {category === 'bueiros' && (
+              <div className="mt-2 bg-white rounded-2xl p-3.5 border border-[#E4DBC5] flex flex-col gap-2">
+                <p className="text-xs font-bold text-[#171717]">
+                  Qual problema você encontrou no bueiro?
+                </p>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {[
+                    { id: 'bueiro_entupido', label: 'Bueiro entupido', desc: 'Água acumulada ou dificuldade de escoamento.', icon: 'water_damage' },
+                    { id: 'tampa_danificada', label: 'Tampa danificada', desc: 'Tampa quebrada, solta ou danificada.', icon: 'broken_image' },
+                    { id: 'bueiro_sem_tampa', label: 'Bueiro sem tampa', desc: 'Abertura exposta que oferece risco aos pedestres.', icon: 'dangerous' },
+                    { id: 'mau_cheiro', label: 'Mau cheiro', desc: 'Odor desagradável vindo do bueiro.', icon: 'air' },
+                    { id: 'alagamento', label: 'Alagamento', desc: 'Água acumulada ao redor do bueiro.', icon: 'flood' },
+                    { id: 'outros_bueiros', label: 'Outros', desc: 'Problemas que não se encaixem nas opções anteriores.', icon: 'more_horiz' },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => {
+                        soundFx.playTap();
+                        setSubcategory(opt.id);
+                        setSubcategoryLabel(opt.label);
+                      }}
+                      className={`p-2.5 rounded-xl flex items-start gap-2.5 text-left transition-all cursor-pointer border ${
+                        subcategory === opt.id
+                          ? 'bg-[#FFC928]/25 border-[#171717]'
+                          : 'bg-[#FFF9EB] border-[#E4DBC5]/70 hover:bg-[#FFC928]/10'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[18px] text-blue-600 mt-0.5 shrink-0">{opt.icon}</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-[#171717]">{opt.label}</p>
+                        <p className="text-[11px] text-[#737373] leading-snug">{opt.desc}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
 
           {/* 3. Description Field */}

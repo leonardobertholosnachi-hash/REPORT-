@@ -9,6 +9,7 @@ import { NewReportModal } from './components/NewReportModal';
 import { IncidentDetailModal } from './components/IncidentDetailModal';
 import { NotificationsDropdown } from './components/NotificationsDropdown';
 import { TermsModal } from './components/TermsModal';
+import { OwnerPanelModal } from './components/OwnerPanelModal';
 import { Incident, User } from './types';
 import { soundFx } from './utils/audio';
 
@@ -21,6 +22,7 @@ export default function App() {
   const [reportCoords, setReportCoords] = useState<{ lat: number; lng: number; address?: string } | undefined>(undefined);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isOwnerPanelOpen, setIsOwnerPanelOpen] = useState(false);
 
   // Strictly NO fake user profile automatically logged in. Starts as null (visitor state)
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -174,7 +176,6 @@ export default function App() {
         body: JSON.stringify({
           email: 'nelson.losnachi@gmail.com',
           name: 'Nelson Losnachi',
-          role: 'cidadao',
         }),
       });
       const json = await res.json();
@@ -184,6 +185,25 @@ export default function App() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  // Redeem invite code
+  const handleRedeemInviteCode = async (code: string): Promise<{ success: boolean; message: string }> => {
+    try {
+      const res = await fetch('/api/invites/redeem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      const json = await res.json();
+      if (json.success && json.data) {
+        setCurrentUser(json.data);
+        return { success: true, message: json.message || 'Cargo atualizado com sucesso!' };
+      }
+      return { success: false, message: json.error || 'Código inválido.' };
+    } catch (err) {
+      return { success: false, message: 'Erro de conexão ao validar código.' };
     }
   };
 
@@ -249,6 +269,7 @@ export default function App() {
         subtitle={getHeaderSubtitle()}
         onOpenNotifications={() => setIsNotificationsOpen(true)}
         onProfileClick={() => setCurrentTab('perfil')}
+        onOpenOwnerPanel={() => setIsOwnerPanelOpen(true)}
       />
 
       {/* Main Tab Views */}
@@ -283,7 +304,7 @@ export default function App() {
             incidents={
               currentUser
                 ? incidents.filter((i) =>
-                    currentUser.role === 'admin' || currentUser.role === 'agente'
+                    currentUser.role === 'moderador' || currentUser.role === 'agente' || currentUser.role === 'proprietario'
                       ? true
                       : i.userId === currentUser.id || i.userEmail === currentUser.email
                   )
@@ -306,6 +327,8 @@ export default function App() {
             onGoogleSignIn={handleGoogleSignIn}
             onEmailSignIn={handleEmailSignIn}
             onLogout={handleLogout}
+            onRedeemInviteCode={handleRedeemInviteCode}
+            onOpenOwnerPanel={() => setIsOwnerPanelOpen(true)}
           />
         )}
       </div>
@@ -359,6 +382,16 @@ export default function App() {
           handleUpdateProfile({ termsAccepted: true });
         }}
       />
+
+      {/* Owner System Management Panel */}
+      {currentUser && currentUser.role === 'proprietario' && (
+        <OwnerPanelModal
+          isOpen={isOwnerPanelOpen}
+          onClose={() => setIsOwnerPanelOpen(false)}
+          currentUser={currentUser}
+          onUserUpdated={fetchUser}
+        />
+      )}
     </div>
   );
 }

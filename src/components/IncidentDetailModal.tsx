@@ -76,7 +76,7 @@ export const IncidentDetailModal: React.FC<IncidentDetailModalProps> = ({
     }
   };
 
-  const canManage = currentUser?.role === 'agente' || currentUser?.role === 'admin';
+  const canManage = currentUser?.role === 'agente' || currentUser?.role === 'moderador' || currentUser?.role === 'proprietario';
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex justify-center items-start p-0 sm:p-4 animate-in fade-in">
